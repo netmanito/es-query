@@ -1,0 +1,9 @@
+#/usr/bin/env bash
+_es-query_completions()
+{
+  COMPREPLY+=("GET")
+  COMPREPLY+=("PUT")
+  COMPREPLY+=("POST")
+  COMPREPLY+=("DELETE")
+}
+complete -F _es-query_completions es-query

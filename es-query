@@ -7,21 +7,26 @@
 #URL="node02:9200"
 source .env
 
+## enable bash completion
+# cp es-query_bash_completion ~/.local/share/bash-completion/completions/
+# source ./es-query_bash_completion 
+
 ## function with jquery
 function es_request {
   curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" |jq 
 }
+
 ## function without jquery
 function request {
   curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" 
 }
-## function PUT|POST 
+
+## function GET|PUT|POST with json file
 function p_request {
   curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" -d @$3 |jq 
 }
 
 ## variables to work in requests
-
 OPT=$1
 QUERY=$2
   if [ -z $1 ]; then
@@ -41,9 +46,9 @@ FILE=$3
      if [[ "$QUERY" =~ _cat/indices.*$ ]]; then
 	    request XGET $QUERY
      elif [ -z $FILE ]; then 
-     # do_option_1
-     #[ -z $QUERY ] && { echo "wrong option"; exit 1; } || esrequest XGET $QUERY |jq 
-     es_request XGET $QUERY 
+	    # do_option_1
+	    #[ -z $QUERY ] && { echo "wrong option"; exit 1; } || esrequest XGET $QUERY |jq 
+	    es_request XGET $QUERY 
      else
 	     p_request XGET $QUERY $FILE
      fi
@@ -51,15 +56,15 @@ FILE=$3
     ;;
     PUT|put)
      # do_option_2
-     prequest $OPT $QUERY $FILE
+     p_request $OPT $QUERY $FILE
     ;;
     POST|post)
      # do_option_2
-    request XPOST $QUERY $FILE
+     p_request $OPT $QUERY $FILE
     ;;
     DELETE|del|delete)
      # do_option_2
-    request XDELETE $QUERY
+     request XDELETE $QUERY
     ;;
     help)
       echo "Usage GET PUT POST DELETE endpoint"
