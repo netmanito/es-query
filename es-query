@@ -15,6 +15,12 @@ function es_request {
 function request {
   curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" 
 }
+## function PUT|POST 
+function p_request {
+  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" -d @$3 |jq 
+}
+
+## variables to work in requests
 
 OPT=$1
 QUERY=$2
@@ -25,30 +31,35 @@ QUERY=$2
     OPT=$1
     QUERY=$2
   fi
-  
+FILE=$3
+
+## options use
   case $OPT in
     GET|get)
      QUERY=$2
+     FILE=$3
      if [[ "$QUERY" =~ _cat/indices.*$ ]]; then
 	    request XGET $QUERY
-     else 
+     elif [ -z $FILE ]; then 
      # do_option_1
      #[ -z $QUERY ] && { echo "wrong option"; exit 1; } || esrequest XGET $QUERY |jq 
      es_request XGET $QUERY 
+     else
+	     p_request XGET $QUERY $FILE
      fi
      #echo GET
     ;;
     PUT|put)
      # do_option_2
-     request XPUT $query
+     prequest $OPT $QUERY $FILE
     ;;
     POST|post)
      # do_option_2
-    request XPOST $query
+    request XPOST $QUERY $FILE
     ;;
     DELETE|del|delete)
      # do_option_2
-    request XDELETE $query
+    request XDELETE $QUERY
     ;;
     help)
       echo "Usage GET PUT POST DELETE endpoint"
