@@ -11,19 +11,29 @@ source .env
 # cp es-query_bash_completion ~/.local/share/bash-completion/completions/
 # source ./es-query_bash_completion 
 
+## test URL
+HTTPS="https"
+function test_url {
+	curl -o /dev/null -s -w "%{http_code}\n" -k "https://$URL"
+}
+
+if [ $(test_url) == "000" ]; then
+   HTTPS="http"
+fi
 ## function with jquery
 function es_request {
-  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" |jq 
+  
+  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "$HTTPS://$URL/$2" |jq 
 }
 
 ## function without jquery
 function request {
-  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" 
+  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "$HTTPS://$URL/$2" 
 }
 
 ## function GET|PUT|POST with json file
 function p_request {
-  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "https://$URL/$2" -d @$3 |jq 
+  curl -s -H "Content-Type: application/json" -k -u $USERNAME:$PASSWORD -$1 "$HTTPS://$URL/$2" -d @$3 |jq 
 }
 
 ## variables to work in requests
