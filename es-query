@@ -1,15 +1,12 @@
 #!/bin/bash
 
 ## variables to be moved to .env file
-
-#USERNAME="elastic"
-#PASSWORD="8xP3984vNgl9uIauv5chV396"
-#URL="node02:9200"
+# shellcheck source=.env
 source .env
 
 ## enable bash completion
 # cp es-query_bash_completion ~/.local/share/bash-completion/completions/
-# source ./es-query_bash_completion 
+source ./es-query_bash_completion
 
 ## test URL
 HTTPS="https"
@@ -17,7 +14,7 @@ function test_url {
 	curl -o /dev/null -s -w "%{http_code}\n" -k "https://$URL"
 }
 
-if [ $(test_url) == "000" ]; then
+if [ "$(test_url)" == "000" ]; then
    HTTPS="http"
 fi
 ## function with jquery
@@ -39,10 +36,10 @@ function p_request {
 ## variables to work in requests
 OPT=$1
 QUERY=$2
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     OPT=""
     echo "error"
-  elif [ -n $1 ]; then
+  elif [ -n "$1" ]; then
     OPT=$1
     QUERY=$2
   fi
@@ -53,14 +50,14 @@ FILE=$3
     GET|get)
      QUERY=$2
      FILE=$3
-     if [[ "$QUERY" =~ _cat/indices.*$ ]]; then
-	    request XGET $QUERY
-     elif [ -z $FILE ]; then 
+     if [[ "$QUERY" =~ _cat/.*$ ]]; then
+	    request XGET "$QUERY"
+     elif [ -z "$FILE" ]; then 
 	    # do_option_1
 	    #[ -z $QUERY ] && { echo "wrong option"; exit 1; } || esrequest XGET $QUERY |jq 
-	    es_request XGET $QUERY 
+	    es_request XGET "$QUERY" 
      else
-	     p_request XGET $QUERY $FILE
+	     p_request XGET "$QUERY" "$FILE"
      fi
      #echo GET
     ;;
