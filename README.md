@@ -2,11 +2,11 @@
 
 CLI tool to search, post, put and delete data on elasticsearch clusters.
 
-## Descrption
+## Description
 
 Bash script based on curl and jquery to easy query elasticsearch cluster from the command line.
 
-I'd would be nice to be as powerfull as kibana dev-tools, but at the moment is just a bash script.
+I'd would be nice to be as powerful as kibana dev-tools, but at the moment is just a bash script.
 
 ## Requirements
 
@@ -36,7 +36,7 @@ You can use a json file with a search or aggregation
 {
   "size": 0,
   "aggs": {
-    "nodos": {
+    "nodes": {
       "terms": {
         "field": "agent.hostname",
         "size": 100
@@ -83,6 +83,23 @@ This results as follows
 }
 ```
 
+### PUT option
+
+You can use PUT with data coming from a file as follows: 
+
+```
+$ cat cluster-settings.json
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": null
+  }
+}
+```
+
+```
+./es-query PUT _cluster/settings cluster-settings.json
+```
+
 ## Options
 
 * GET
@@ -92,9 +109,10 @@ This results as follows
 
 ## Status
 
-At the moment, only GET option works but without arguments.
+All commands work
 
 ## TODO
 
-* add option to use json file with search query inside
-* add autocompletion
+* add option to use json file with search query inside (OK)
+* add autocompletion (In progress)
+* Implement es-query like https://github.com/asciimoo/wuzz
