@@ -17,9 +17,15 @@ I'd would be nice to be as powerful as kibana dev-tools, but at the moment is ju
 ## Install
 
 * Download the repository
-* create a .env file with the variables described below
 * run `bash install.sh`
 
+This will install `es-query` executable on `~/bin` in your HOME directory.
+
+It will create a `.es-query` directory in your HOME directory with two files
+
+* .env (environment variables for elasticsearch HOST, USER and PASSWORD)
+* es-query_bash_completion (bash completion for es-query)
+  
 ### .env file
 
 ```
@@ -126,6 +132,6 @@ All commands work
 
 ## TODO
 
-* add option to use json file with search query inside (OK)
-* add autocompletion (In progress)
-* Implement es-query like https://github.com/asciimoo/wuzz
+* add option to use json file with search query inside  ✅
+* add autocompletion (In progress) ❌
+* Implement es-query like https://github.com/asciimoo/wuzz ❌

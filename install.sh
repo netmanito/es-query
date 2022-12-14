@@ -31,16 +31,22 @@ function checkDir {
         if [[ -f "$BASH_COMP" ]]; then
                 echo "query_bash_completion found"
                 echo "checking changes"
-                checkBC
+                DIFF=$(checkBC)
+                if [ -z "$DIFF" ]; then
+                        echo "No changes found, nothing to do"
+                else
+                echo "$DIFF"
                 echo "Do you want to Update?"
                 read -p "Press Enter to continue"
+                #       cp es-query_bash_completion "${HOME}"/.es-query/        
+                fi
         else
                 echo "query_bash_completion File does not exist, not comparing"
         #       cp es-query_bash_completion "${HOME}"/.es-query/
         fi
         echo "++++++++++++++++++++++++++++++++++++"
         echo "Checking .env file"
-        if [[ ! -f "$ENV_FILE" ]]; then
+        if [[ -f "$ENV_FILE" ]]; then
                 echo ".env file found, doing nothing"
         else
                 echo ".env file Not found, creating ..."

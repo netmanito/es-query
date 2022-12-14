@@ -1,11 +1,10 @@
 #!/bin/bash
 
 ## variables to be moved to .env file
-# shellcheck source=~/.es-query/.env
 source ~/.es-query/.env
 
 ## enable bash completion
-# not user if it works out of the bash-completion normal path
+# not sure if it works out of the bash-completion normal path
 # cp es-query_bash_completion ~/.local/share/bash-completion/completions/
 source ~/.es-query/es-query_bash_completion
 
@@ -77,10 +76,10 @@ help)
   echo "Usage GET PUT POST DELETE endpoint"
   ;;
 *)
-  echo "wrong option, use GET|PUT|POST|DELETE endpoint"
+  echo "Wrong option, use GET|PUT|POST|DELETE endpoint"
   echo " "
   echo "Example usage:"
-  echo "es-query GET _cat/indices?pretty"
+  echo "es-query get _cat/indices?pretty"
   echo " "
   ;;
 esac
