@@ -5,6 +5,7 @@
 source ~/.es-query/.env
 
 ## enable bash completion
+# not user if it works out of the bash-completion normal path
 # cp es-query_bash_completion ~/.local/share/bash-completion/completions/
 source ~/.es-query/es-query_bash_completion
 

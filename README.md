@@ -14,8 +14,21 @@ I'd would be nice to be as powerful as kibana dev-tools, but at the moment is ju
 * curl
 * jquery
 
-## Usage
+## Install
 
+* Download the repository
+* create a .env file with the variables described below
+* run `bash install.sh`
+
+### .env file
+
+```
+USERNAME="elastic"
+PASSWORD="changeme"
+URL="localhost:9200"
+```
+
+## Usage
 ### Basic example usage:
 
 ```
