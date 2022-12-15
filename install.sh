@@ -3,7 +3,7 @@
 # set -o pipefail
 # set -u
 
-ES_QUERY="${HOME}/bin/es-query"
+ES_QUERY="${HOME}/bin/esq"
 ES_QUERY_DIR="${HOME}/.es-query"
 BASH_COMP="${HOME}/.es-query/es-query_bash_completion"
 ENV_FILE="${HOME}/.es-query/.env"
@@ -79,8 +79,8 @@ if [ ! -f  "$ES_QUERY" ]; then
         read -p "Press ENTER to continue Install or CRTL+C to abort"
         echo "======================================================"
         echo "Installing ES-Query"
-        cp es-query "${HOME}"/bin/
-        chmod +x "${HOME}"/bin/es-query
+        cp esq "${HOME}"/bin/
+        chmod +x "${HOME}"/bin/esq
         echo "ES-Query installed"
         checkDir
         echo "All Done!!"
@@ -92,10 +92,10 @@ else
         read -p "Press ENTER to continue or CRTL+C to abort"
         echo ""
         echo "Updating es-query"
-        mv "${HOME}"/bin/es-query{,.old}
-        cp es-query "${HOME}"/bin/es-query
-        chmod +x "${HOME}"/bin/es-query
-        rm "${HOME}"/bin/es-query.old
+        mv "${HOME}"/bin/esq{,.old}
+        cp esq "${HOME}"/bin/esq
+        chmod +x "${HOME}"/bin/esq
+        rm "${HOME}"/bin/esq.old
         echo ""
         echo "Update Done"
         echo ""

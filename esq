@@ -79,7 +79,7 @@ help)
   echo "Wrong option, use GET|PUT|POST|DELETE endpoint"
   echo " "
   echo "Example usage:"
-  echo "es-query get _cat/indices?pretty"
+  echo "esq get _cat/indices?pretty"
   echo " "
   ;;
 esac
