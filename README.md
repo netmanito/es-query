@@ -21,9 +21,10 @@ I'd would be nice to be as powerful as kibana dev-tools, but at the moment is ju
 
 This will install `es-query` executable on `~/bin` in your HOME directory.
 
-It will create a `.es-query` directory in your HOME directory with two files
+It will create a `.es-query` directory in your HOME directory with the following files
 
-* .env (environment variables for elasticsearch HOST, USER and PASSWORD)
+* .env.default (environment variables for elasticsearch HOST, USER and PASSWORD)
+* .env (symbolic link to .env.default)
 * es-query_bash_completion (bash completion for es-query)
   
 ### .env file
@@ -35,19 +36,48 @@ URL="localhost:9200"
 ```
 
 ## Usage
+
+The following options are available.
+## Options
+
+* GET -> Get request to Elastic 
+* PUT -> Put request to Elastic
+* POST -> Post request to Elastic
+* DELETE -> Delete request to Elastic
+* ENV -> set|change environment variable
+
+### Change environment settings
+
+You can have more than one .env.file in your ~/.es-query directory and change by
+
+The value needs to match the ending file name in format of `.env.value` . The `.env` file used is a symlink and can be updated at any time with
+
+```
+esq env mon
+```
+
+Executing `esq` will remove the existing symlink and create a new one based on the given name
+
+```
+0 lrwxr-xr-x   1 jaci  staff    30B Dec 15 16:29 .env -> /Users/jaci/.es-query/.env.mon
+8 -rw-r--r--   1 jaci  staff    60B Dec 15 16:10 .env.default
+8 -rw-r--r--   1 jaci  staff    76B Dec 15 16:09 .env.mon
+```
+
+
 ### Basic example usage:
 
 ```
-es-query GET _cat/indices?pretty
+esq GET _cat/indices?pretty
 ```
 
 ### Basic search
 
-	es-query get metricbeat*/_search
+	esq get metricbeat*/_search
 
 ### Search from json file
 	
-	es-query get metricbeat*/_search file.json
+	esq get metricbeat*/_search file.json
 
 You can use a json file with a search or aggregation
 
@@ -68,8 +98,7 @@ You can use a json file with a search or aggregation
 This results as follows
 
 ```
-✔ ~/GitHub/es-query [main ↑·1|…2]
-12:58 $ ./es-query GET metricbeat*/_search test.json
+$ esq GET metricbeat*/_search test.json
 {
   "took": 27,
   "timed_out": false,
@@ -116,15 +145,8 @@ $ cat cluster-settings.json
 ```
 
 ```
-./es-query PUT _cluster/settings cluster-settings.json
+$ esq PUT _cluster/settings cluster-settings.json
 ```
-
-## Options
-
-* GET
-* PUT
-* POST
-* DELETE
 
 ## Status
 
@@ -133,5 +155,6 @@ All commands work
 ## TODO
 
 * add option to use json file with search query inside  ✅
+* multi environment support ✅
 * add autocompletion (In progress) ❌
-* Implement es-query like https://github.com/asciimoo/wuzz ❌
+* Implement es-query with similarities to https://github.com/asciimoo/wuzz ? 🔨

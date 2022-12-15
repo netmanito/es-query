@@ -32,12 +32,21 @@ function p_request {
   curl -s -H "Content-Type: application/json" -k -u "$USERNAME":"$PASSWORD" -"$1" "$HTTPS://$URL/$2" -d @"$3" | jq
 }
 
+## function set env
+function set_env {
+  echo "Changing environment credentials to '$QUERY'"
+  rm "${HOME}"/.es-query/.env
+  ln -s "${HOME}"/.es-query/.env."$QUERY" "${HOME}"/.es-query/.env
+  echo "Done ✅"
+}
+
 ## variables to work in requests
 OPT=$1
 QUERY=$2
 if [ -z "$1" ]; then
   OPT=""
-  echo "error"
+  echo "Error! Expected some argument ❌"
+  echo ""
 elif [ -n "$1" ]; then
   OPT=$1
   QUERY=$2
@@ -72,15 +81,32 @@ DELETE | del | delete)
   # do_option_2
   request XDELETE "$QUERY"
   ;;
+ENV | env)
+  # set environmet
+  set_env "$QUERY"
+  ;;
 help)
-  echo "Usage GET PUT POST DELETE endpoint"
+  echo "Usage GET PUT POST DELETE ENV"
   ;;
 *)
-  echo "Wrong option, use GET|PUT|POST|DELETE endpoint"
-  echo " "
-  echo "Example usage:"
+  echo "=============================================="
+  echo ""
+  echo "Wrong option, use get|put|post|delete|env"
+  echo ""
+  echo "Elastic Usage:"
+  echo ""
   echo "esq get _cat/indices?pretty"
-  echo " "
+  echo ""
+  echo "=============================================="
+  echo ""
+  echo "Credentials Usage:"
+  echo ""
+  echo "For setting file ~/.es-query/.env.remote"
+  echo "Do: "
+  echo ""
+  echo "esq env remote"
+  echo ""
+  echo "=============================================="
   ;;
 esac
 shift
