@@ -5,8 +5,4 @@ _esq_completions()
   COMPREPLY=($(compgen -W "get put post del env" -- "${COMP_WORDS[1]}"))
 }
 
-if [ "${#COMP_WORDS[@]}" != "2" ]; then
-  return
-fi
-
 complete -F _esq_completions esq
