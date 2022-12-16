@@ -1,9 +1,12 @@
 #/usr/bin/env bash
-_es-query_completions()
+_esq_completions()
+
 {
-  COMPREPLY+=("GET")
-  COMPREPLY+=("PUT")
-  COMPREPLY+=("POST")
-  COMPREPLY+=("DELETE")
+  COMPREPLY=($(compgen -W "get put post del env" -- "${COMP_WORDS[1]}"))
 }
-complete -F _es-query_completions es-query
+
+if [ "${#COMP_WORDS[@]}" != "2" ]; then
+  return
+fi
+
+complete -F _esq_completions esq

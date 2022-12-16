@@ -1,7 +1,6 @@
-# es-query
+# ES-Query
 
-CLI tool to search, post, put and delete data on elasticsearch clusters.
-
+ES-Query or `esq` is a CLI tool to communicate with Elasticsearch using CURL.
 ## Description
 
 Bash script based on curl and jquery to easy query elasticsearch cluster from the command line.
@@ -19,7 +18,7 @@ I'd would be nice to be as powerful as kibana dev-tools, but at the moment is ju
 * Download the repository
 * run `bash install.sh`
 
-This will install `es-query` executable on `~/bin` in your HOME directory.
+This will install `esq` executable on `~/bin` in your HOME directory.
 
 It will create a `.es-query` directory in your HOME directory with the following files
 
