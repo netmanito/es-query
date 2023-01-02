@@ -41,41 +41,49 @@ function set_env {
 }
 
 ## variables to work in requests
-OPT=$1
+COMMAND=$1
 QUERY=$2
 if [ -z "$1" ]; then
-  OPT=""
+  COMMAND=""
   echo "Error! Expected some argument ❌"
   echo ""
 elif [ -n "$1" ]; then
-  OPT=$1
+  COMMAND=$1
   QUERY=$2
 fi
-FILE=$3
+OPTION=$3
 
 ## options use
-case $OPT in
+case $COMMAND in
 GET | get)
   QUERY=$2
-  FILE=$3
+  OPTION=$3
+  # use query wihtout jq when doing _cat requests 
   if [[ "$QUERY" =~ _cat/.*$ ]]; then
     request XGET "$QUERY"
-  elif [ -z "$FILE" ]; then
-    # do_option_1
-    #[ -z $QUERY ] && { echo "wrong option"; exit 1; } || esrequest XGET $QUERY |jq
+  elif [ -z "$OPTION" ]; then
+    # get request with no options
     es_request XGET "$QUERY"
   else
-    p_request XGET "$QUERY" "$FILE"
+    # get request with options
+    p_request XGET "$QUERY" "$OPTION"
   fi
-  #echo GET
   ;;
 PUT | put)
-  # do_option_2
-  p_request "$OPT" "$QUERY" "$FILE"
+  # put request needs options
+  if [ -z "$OPTION" ]; then
+    echo "Error, argument needed"
+  else
+    p_request "$COMMAND" "$QUERY" "$OPTION"
+  fi
   ;;
 POST | post)
   # do_option_2
-  p_request "$OPT" "$QUERY" "$FILE"
+  if [ -z "$OPTION" ]; then
+    echo "Error, argument needed"
+  else
+    p_request "$COMMAND" "$QUERY" "$OPTION"
+  fi
   ;;
 DELETE | del | delete)
   # do_option_2
@@ -83,7 +91,15 @@ DELETE | del | delete)
   ;;
 ENV | env)
   # set environmet
-  set_env "$QUERY"
+  if [ -z "$QUERY" ]; then
+    echo "Showing available connections"
+    echo ""
+    ENVLIST=$(find ~/.es-query/.env* -exec ls -Gl {} \; | awk {'print $9,$10,$11'})
+    echo "$ENVLIST"
+    echo ""
+  else
+    set_env "$QUERY"
+  fi
   ;;
 help)
   echo "Usage GET PUT POST DELETE ENV"

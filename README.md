@@ -36,6 +36,10 @@ URL="localhost:9200"
 
 ## Usage
 
+```
+$ esq [option] [query]
+```
+
 The following options are available.
 ## Options
 
@@ -44,26 +48,7 @@ The following options are available.
 * POST -> Post request to Elastic
 * DELETE -> Delete request to Elastic
 * ENV -> set|change environment variable
-
-### Change environment settings
-
-You can have more than one .env.file in your ~/.es-query directory and change by
-
-The value needs to match the ending file name in format of `.env.value` . The `.env` file used is a symlink and can be updated at any time with
-
-```
-esq env mon
-```
-
-Executing `esq` will remove the existing symlink and create a new one based on the given name
-
-```
-0 lrwxr-xr-x   1 jaci  staff    30B Dec 15 16:29 .env -> /Users/jaci/.es-query/.env.mon
-8 -rw-r--r--   1 jaci  staff    60B Dec 15 16:10 .env.default
-8 -rw-r--r--   1 jaci  staff    76B Dec 15 16:09 .env.mon
-```
-
-
+  
 ### Basic example usage:
 
 ```
@@ -147,6 +132,24 @@ $ cat cluster-settings.json
 $ esq PUT _cluster/settings cluster-settings.json
 ```
 
+### Change connection settings
+
+You can have more than one .env.file in your ~/.es-query directory and change by
+
+The value needs to match the ending file name in format of `.env.value` . The `.env` file used is a symlink and can be updated at any time with
+
+```
+$ esq env mon
+```
+
+Executing `esq` will remove the existing symlink and create a new one based on the given name
+
+```
+0 lrwxr-xr-x   1 user  staff    30B Dec 15 16:29 .env -> /Users/user/.es-query/.env.mon
+8 -rw-r--r--   1 user  staff    60B Dec 15 16:10 .env.default
+8 -rw-r--r--   1 user  staff    76B Dec 15 16:09 .env.mon
+```
+
 ## Status
 
 All commands work
@@ -156,4 +159,5 @@ All commands work
 * add option to use json file with search query inside  ✅
 * multi environment support ✅
 * add autocompletion (In progress) ❌
+* Can autocomplete be as good as Kibana dev-tools? ❌
 * Implement es-query with similarities to https://github.com/asciimoo/wuzz ? 🔨
