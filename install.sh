@@ -38,11 +38,12 @@ function checkDir {
                 echo "$DIFF"
                 echo "Do you want to Update?"
                 read -p "Press Enter to continue"
-                #       cp es-query_bash_completion "${HOME}"/.es-query/        
+                # mv "${HOME}"/.es-query/es-query_bash_completion{,.old}
+                # cp es-query_bash_completion "${HOME}"/.es-query/
                 fi
         else
                 echo "query_bash_completion File does not exist, not comparing"
-        #       cp es-query_bash_completion "${HOME}"/.es-query/
+                # cp es-query_bash_completion "${HOME}"/.es-query/
         fi
         echo "++++++++++++++++++++++++++++++++++++"
         echo "Checking .env file"
@@ -91,7 +92,7 @@ else
         echo ""
         read -p "Press ENTER to continue or CRTL+C to abort"
         echo ""
-        echo "Updating es-query"
+        echo "Updating ES-Query"
         mv "${HOME}"/bin/esq{,.old}
         cp esq "${HOME}"/bin/esq
         chmod +x "${HOME}"/bin/esq
@@ -100,7 +101,7 @@ else
         echo "Update Done"
         echo ""
         echo "======================================================"
-        echo "es-query Successfully updated"
+        echo "ES-Query Successfully updated"
         checkDir
         echo ""
         echo "Checking associated files"

@@ -107,7 +107,7 @@ help)
 *)
   echo "=============================================="
   echo ""
-  echo "Wrong option, use get|put|post|delete|env"
+  echo "Wrong option, use get|put|post|del|env"
   echo ""
   echo "Elastic Usage:"
   echo ""
