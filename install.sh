@@ -104,5 +104,5 @@ else
         echo "ES-Query Successfully updated"
         checkDir
         echo ""
-        echo "Checking associated files"
+        echo "All Done!!"
 fi

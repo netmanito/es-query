@@ -8,6 +8,45 @@ source ~/.es-query/.env
 # cp es-query_bash_completion ~/.local/share/bash-completion/completions/
 source ~/.es-query/es-query_bash_completion
 
+USAGE="Usage: $0 <option get|put|post|del|env> <command>"
+EXAMPLE="Example: $0 get _cat/indices"
+
+log() {
+    LEVEL=$1
+    shift
+    MESSAGE=$@
+
+    if [[ $SILENT -eq 1 ]] && [[ $SHOW_ERRORS -eq 0 || $LEVEL != "ERROR" ]]; then
+        return 0
+    fi
+
+    case $LEVEL in
+        ERROR)
+            LEVEL="\e[91mERROR\e[0m"
+            ;;
+        INFO)
+            LEVEL=" \e[92mINFO\e[0m"
+            ;;
+        WARN)
+            LEVEL=" \e[93mWARN\e[0m"
+            ;;
+        *)
+            ;;
+    esac
+
+    printf "$(date) | "
+    printf "$LEVEL : "
+    printf "$MESSAGE\n"
+}
+
+if [[ "$#" -lt 1 ]]; then
+	log "ERROR" "Too few arguments. ❌"
+  echo ""
+	echo "$USAGE"
+  echo "$EXAMPLE"
+	exit 1
+fi
+
 ## test URL
 HTTPS="https"
 function test_url {
@@ -34,23 +73,15 @@ function p_request {
 
 ## function set env
 function set_env {
-  echo "Changing environment credentials to '$QUERY'"
+  log "INFO" "Changing environment credentials to '$QUERY'"
   rm "${HOME}"/.es-query/.env
   ln -s "${HOME}"/.es-query/.env."$QUERY" "${HOME}"/.es-query/.env
-  echo "Done ✅"
+  log "INFO" "Done ✅"
 }
 
 ## variables to work in requests
 COMMAND=$1
 QUERY=$2
-if [ -z "$1" ]; then
-  COMMAND=""
-  echo "Error! Expected some argument ❌"
-  echo ""
-elif [ -n "$1" ]; then
-  COMMAND=$1
-  QUERY=$2
-fi
 OPTION=$3
 
 ## options use
@@ -104,14 +135,20 @@ ENV | env)
 help)
   echo "Usage GET PUT POST DELETE ENV"
   ;;
+indices)
+  request XGET _cat/indices/*,-.*?pretty=true
+  ;;
+shards)
+  request XGET _cat/shards?pretty=true
+  ;;
 *)
   echo "=============================================="
   echo ""
-  echo "Wrong option, use get|put|post|del|env"
+  log "ERROR" "Wrong option, use get|put|post|del|env"
   echo ""
   echo "Elastic Usage:"
   echo ""
-  echo "esq get _cat/indices?pretty"
+  echo "$EXAMPLE"
   echo ""
   echo "=============================================="
   echo ""
