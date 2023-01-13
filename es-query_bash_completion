@@ -1,8 +1,32 @@
 #/usr/bin/env bash
-_esq_completions()
+_es-query() {
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  opts="get put post delete env"
 
-{
-  COMPREPLY=($(compgen -W "get put post del env" -- "${COMP_WORDS[1]}"))
+  case "${prev}" in
+    get)
+      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == _cat/ ]]; then
+        # Suggest _alias, _allocation, _shards, etc. for _cat subcommands
+        COMPREPLY=($(compgen -W "alias allocation shards nodes recovery health pending_tasks segments fielddata tasks _templates thread_pool plugins" -- ${cur}))
+      elif [[ "$cur" == _* ]]; then
+        # Suggest _alias, _cluster, _cat for queries starting with _
+        COMPREPLY=($(compgen -W "_alias _cluster _cat" -- ${cur}))
+      else
+        _filedir 'json'
+      fi
+      return 0
+      ;;
+    put | post)
+      _filedir 'json'
+      return 0
+      ;;
+    *)
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+      ;;
+  esac
 }
-
-complete -F _esq_completions esq
+complete -F _es-query -o nospace esq
