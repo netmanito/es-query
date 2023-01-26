@@ -125,9 +125,16 @@ ENV | env)
   if [ -z "$QUERY" ]; then
     echo "Showing available connections"
     echo ""
-    ENVLIST=$(find ~/.es-query/.env* -exec ls -Gl {} \; | awk {'print $9,$10,$11'})
-    echo "$ENVLIST"
-    echo ""
+    os="$OSTYPE"
+    if [[ "$os" == *linux* ]]; then
+      ENVLIST=$(ls -Gn ~/.es-query/.env* |cut -d ' ' -f 8-)
+      echo "$ENVLIST"
+      echo ""
+    elif [[ "$os" == *darwin** ]]; then
+      ENVLIST=$(ls -Gn ~/.es-query/.env* |cut -d ' ' -f 12-)
+      echo "$ENVLIST"
+      echo ""
+    fi
   else
     set_env "$QUERY"
   fi

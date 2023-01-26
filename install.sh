@@ -6,11 +6,11 @@
 ES_QUERY="${HOME}/.es-query/esq"
 ES_QUERY_DIR="${HOME}/.es-query"
 BASH_COMP="${HOME}/.es-query/es-query_bash_completion"
-ENV_FILE="${HOME}/.es-query/.env"
+ENV_FILE="${HOME}/.es-query/.env.example"
 
 function env_me {
         ENV_ME=$(
-                cat <<EOF >>~/.es-query/.env
+                cat <<EOF >>~/.es-query/.env.example
         USERNAME="elastic"
         PASSWORD="changeme"
         URL="localhost:9200"
@@ -67,6 +67,7 @@ function checkDir {
                 else
                         echo ".env file Not found, creating ..."
                         env_me
+                        ln -s "$ENV_FILE" "$ES_QUERY_DIR"/.env
                         echo "Done"
                 fi
         else
@@ -80,6 +81,7 @@ function checkDir {
                 echo "======================================================"
                 echo "Copying necessary files to .es-query directory"
                 env_me
+                ln -s "$ENV_FILE" "$ES_QUERY_DIR"/.env
                 cp es-query_bash_completion "${ES_QUERY_DIR}"/
                 echo "Done ..."
                 bash_me
