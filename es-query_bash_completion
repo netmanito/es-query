@@ -1,16 +1,16 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 _es-query() {
   local cur prev opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  opts="get put post delete env"
+  opts="get put post delete env v"
 
   case "${prev}" in
     get)
       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == _cat/ ]]; then
         # Suggest _alias, _allocation, _shards, etc. for _cat subcommands
-        COMPREPLY=($(compgen -W "alias allocation shards nodes recovery health pending_tasks segments fielddata tasks _templates thread_pool plugins" -- ${cur}))
+        COMPREPLY=($(compgen -W "_alias _allocation _shards _nodes _recovery _health _pending_tasks _segments _fielddata _tasks _templates _thread_pool _plugins" -- ${cur}))
       elif [[ "$cur" == _* ]]; then
         # Suggest _alias, _cluster, _cat for queries starting with _
         COMPREPLY=($(compgen -W "_alias _cluster _cat" -- ${cur}))

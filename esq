@@ -1,5 +1,5 @@
 #!/bin/bash
-
+VERSION="0.1"
 ## variables to be moved to .env file
 source ~/.es-query/.env
 
@@ -147,6 +147,9 @@ indices)
   ;;
 shards)
   request XGET _cat/shards?pretty=true
+  ;;
+v | version)
+  echo "Version $VERSION"
   ;;
 *)
   echo "=============================================="
