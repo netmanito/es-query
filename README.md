@@ -18,13 +18,12 @@ I'd would be nice to be as powerful as kibana dev-tools, but at the moment is ju
 * Download the repository
 * run `bash install.sh`
 
-This will install `esq` executable on `~/bin` in your HOME directory.
-
 It will create a `.es-query` directory in your HOME directory with the following files
 
-* .env.default (environment variables for elasticsearch HOST, USER and PASSWORD)
-* .env (symbolic link to .env.default)
-* es-query_bash_completion (bash completion for es-query)
+* `esq` the **es-query** executable.
+* `.env.default` (environment variables for elasticsearch HOST, USER and PASSWORD)
+* `.env` (symbolic link to .env.default)
+* `es-query_bash_completion` (bash completion for es-query)
   
 ### .env file
 
